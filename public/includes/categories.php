@@ -8,7 +8,7 @@
             while ($row = $res_cat->fetch_array()) {
                 echo "
         <div class='col-lg-3 col-md-4 col-sm-6 pb-1'>
-        <a class='text-decoration-none' href='{$row['cat_id']}'>
+        <a class='text-decoration-none' href='shop.php?cat_id={$row['cat_id']}'>
             <div class='cat-item d-flex align-items-center mb-4'>
                 <div class='overflow-hidden' style='width: 100px; height: 100px;'>
                     <img class='img-fluid' src='img/cat-1.jpg' alt=''>
