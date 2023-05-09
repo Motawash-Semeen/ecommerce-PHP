@@ -47,7 +47,7 @@ if (isset($_GET['remove'])) {
 
 if (isset($_GET['delete'])) {
 
-    $_SESSION['product_' . $_GET['delete']] = 0;
+    $_SESSION['product_' . $_GET['delete']] = null;
     header("Location: cart.php");
 }
 ?>
@@ -255,7 +255,7 @@ if (isset($_GET['delete'])) {
                         <h5>Total</h5>
                         <h5><span>$</span><?php echo isset($_SESSION['sub_tottal'])? $_SESSION['sub_tottal']+10 : 0 ?></h5>
                     </div>
-                    <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                    <a href='checkout.php' class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</a>
                 </div>
             </div>
         </div>

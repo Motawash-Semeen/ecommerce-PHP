@@ -36,4 +36,5 @@ ob_start();
 
 <?php 
 include("./includes/db.php");
+$total_qun = 0;
 ?>
