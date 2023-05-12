@@ -20,7 +20,7 @@ include("./includes/header.php");
                     </h1>
                     <ol class="breadcrumb">
                         <li class="active">
-                            <i class="fa fa-dashboard"></i> Dashboard
+                            <a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a>
                         </li>
                     </ol>
                 </div>
@@ -28,7 +28,23 @@ include("./includes/header.php");
             <!-- /.row -->
 
             <?php
-            include("./includes/dashboard.php");
+
+            if($_SERVER['REQUEST_URI'] == "/ecommerce-php/public/admin/" or $_SERVER['REQUEST_URI'] == "/ecommerce-php/public/admin/index.php"){
+                include("./includes/dashboard.php");
+            }
+            if(isset($_GET['orders'])){
+                include("./includes/orders/orders.php");
+            }
+            if(isset($_GET['category'])){
+                include("./includes/categories/categories.php");
+            }
+            if(isset($_GET['users'])){
+                include("./includes/users/users.php");
+            }
+            include("./includes/products/add_product.php");
+            include("./includes/products/edit_product.php");
+            include("./includes/products/products.php");
+            //echo $_SERVER['REQUEST_URI'];
             ?>
 
         </div>
