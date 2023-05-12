@@ -1,43 +1,22 @@
-<?php
-include("./includes/header.php");
-?>
-
-    <div id="wrapper">
-
-        <!-- Navigation -->
-        <?php
-    include("./includes/navigation.php");
-    ?>
-
-
-
-        <div id="page-wrapper">
-
-            <div class="container-fluid">
-
-            
-
-            
-
 <h1 class="page-header">
-  Product Categories
+    Product Categories
 
 </h1>
 
 
 <div class="col-md-4">
-    
+
     <form action="" method="post">
-    
+
         <div class="form-group">
             <label for="category-title">Title</label>
             <input type="text" class="form-control">
         </div>
 
         <div class="form-group">
-            
+
             <input type="submit" class="btn btn-primary" value="Add Category">
-        </div>      
+        </div>
 
 
     </form>
@@ -49,53 +28,22 @@ include("./includes/header.php");
 <div class="col-md-8">
 
     <table class="table">
-            <thead>
+        <thead>
 
-        <tr>
-            <th>id</th>
-            <th>Title</th>
-        </tr>
-            </thead>
+            <tr>
+                <th>id</th>
+                <th>Title</th>
+            </tr>
+        </thead>
 
 
-    <tbody>
-        <tr>
-            <td>20</td>
-            <td>Example Title</td>
-        </tr>
-    </tbody>
+        <tbody>
+            <tr>
+                <td>20</td>
+                <td>Example Title</td>
+            </tr>
+        </tbody>
 
-        </table>
+    </table>
 
 </div>
-
-
-
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
-            </div>
-            <!-- /.container-fluid -->
-
-        </div>
-        <!-- /#page-wrapper -->
-
-    </div>
-    <!-- /#wrapper -->
-
-    <!-- jQuery -->
-
-    <?php
-include("./includes/footer.php");
-?>

@@ -1,7 +1,17 @@
 <?php
 include("./includes/header.php");
 ?>
+<?php
 
+if (!isset($_SESSION['id'])) {
+    header("Location: ../index.php");
+} else {
+    if ($_SESSION['role'] == 'user') {
+        header("Location: ../index.php");
+    }
+}
+
+?>
 <div id="wrapper">
 
     <!-- Navigation -->
@@ -29,21 +39,28 @@ include("./includes/header.php");
 
             <?php
 
-            if($_SERVER['REQUEST_URI'] == "/ecommerce-php/public/admin/" or $_SERVER['REQUEST_URI'] == "/ecommerce-php/public/admin/index.php"){
+            if ($_SERVER['REQUEST_URI'] == "/ecommerce-php/public/admin/" or $_SERVER['REQUEST_URI'] == "/ecommerce-php/public/admin/index.php") {
                 include("./includes/dashboard.php");
             }
-            if(isset($_GET['orders'])){
+            if (isset($_GET['orders'])) {
                 include("./includes/orders/orders.php");
             }
-            if(isset($_GET['category'])){
+            if (isset($_GET['category'])) {
                 include("./includes/categories/categories.php");
             }
-            if(isset($_GET['users'])){
+            if (isset($_GET['users'])) {
                 include("./includes/users/users.php");
             }
-            include("./includes/products/add_product.php");
-            include("./includes/products/edit_product.php");
-            include("./includes/products/products.php");
+            if (isset($_GET['products'])) {
+                include("./includes/products/products.php");
+            }
+            if (isset($_GET['add_product'])) {
+                include("./includes/products/add_product.php");
+            }
+            if (isset($_GET['edit_product'])) {
+                include("./includes/products/edit_product.php");
+            }
+
             //echo $_SERVER['REQUEST_URI'];
             ?>
 

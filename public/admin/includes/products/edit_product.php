@@ -1,23 +1,3 @@
-<?php
-include("./includes/header.php");
-?>
-
-    <div id="wrapper">
-
-        <!-- Navigation -->
-        <?php
-    include("./includes/navigation.php");
-    ?>
-
-
-
-        <div id="page-wrapper">
-
-            <div class="container-fluid">
-
-
-
-
 
 
 <div class="col-md-12">
@@ -131,22 +111,3 @@ include("./includes/header.php");
     
 </form>
 
-
-
-                
-
-
-
-            </div>
-            <!-- /.container-fluid -->
-
-        </div>
-        <!-- /#page-wrapper -->
-
-    </div>
-    <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <?php
-include("./includes/footer.php");
-?>

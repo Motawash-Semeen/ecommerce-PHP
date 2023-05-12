@@ -6,18 +6,18 @@
         <li class="<?php echo isset($_GET['orders'])? 'active':'' ?>">
             <a href="index.php?orders"><i class="fa fa-fw fa-dashboard"></i> Orders</a>
         </li>
-        <li>
-            <a href="products.php"><i class="fa fa-fw fa-bar-chart-o"></i> View Products</a>
+        <li class="<?php echo isset($_GET['products'])? 'active':'' ?>">
+            <a href="index.php?products"><i class="fa fa-fw fa-bar-chart-o"></i> View Products</a>
         </li>
-        <li>
-            <a href="add_product.php"><i class="fa fa-fw fa-table"></i> Add Product</a>
+        <li class="<?php echo isset($_GET['add_product'])? 'active':'' ?>">
+            <a href="index.php?add_product"><i class="fa fa-fw fa-table"></i> Add Product</a>
         </li>
 
-        <li>
-            <a href="categories.php"><i class="fa fa-fw fa-desktop"></i> Categories</a>
+        <li class="<?php echo isset($_GET['category'])? 'active':'' ?>">
+            <a href="index.php?category"><i class="fa fa-fw fa-desktop"></i> Categories</a>
         </li>
-        <li>
-            <a href="users.php"><i class="fa fa-fw fa-wrench"></i>Users</a>
+        <li class="<?php echo isset($_GET['users'])? 'active':'' ?>">
+            <a href="index.php?users"><i class="fa fa-fw fa-wrench"></i>Users</a>
         </li>
 
     </ul>
