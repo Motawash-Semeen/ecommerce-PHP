@@ -17,37 +17,52 @@ include("./includes/navbar.php");
 
 <!-- Navbar End -->
 <?php
-$sub_tottal = 0;
+$sub_total  = 0;
 $total_qun = 0;
+$total = 0;
 if (isset($_GET['add'])) {
-    $sql = "SELECT * FROM products WHERE product_id = '$_GET[add]'";
-    $res = $conn->query($sql);
-    while ($v = $res->fetch_array()) {
+    // $sql = "SELECT * FROM products WHERE product_id = '$_GET[add]'";
+    // $res = $conn->query($sql);
+    // while ($v = $res->fetch_array()) {
 
-        if ($v['product_quantity'] != $_SESSION['product_' . $_GET['add']]) {
-            $_SESSION['product_' . $_GET['add']] += 1;
-            $_SESSION['quantity_msg'] = null;
-        } else {
-            $_SESSION['quantity_msg'] = "Only {$v['product_quantity']}  Left";
-        }
-        header("Location: cart.php");
-    }
+    //     if ($v['product_quantity'] != $_SESSION['product_' . $_GET['add']]) {
+    //         $_SESSION['product_' . $_GET['add']] += 1;
+    //         $_SESSION['quantity_msg'] = null;
+    //     } else {
+    //         $_SESSION['quantity_msg'] = "Only {$v['product_quantity']}  Left";
+    //     }
+    //     header("Location: cart.php");
+    // }
+
+
+
+    $sql_quan = "UPDATE cart SET quantity= quantity+1 WHERE product_id = '$_GET[add]' and user_id = '$_SESSION[id]'";
+    $conn->query($sql_quan);
+    header("Location: cart.php");
 }
 
 if (isset($_GET['remove'])) {
 
-    if ($_SESSION['product_' . $_GET['remove']] < 1) {
-        header("Location: cart.php");
-    } else {
-        $_SESSION['product_' . $_GET['remove']] -= 1;
-        header("Location: cart.php");
-    }
-    $_SESSION['quantity_msg'] = null;
+    // if ($_SESSION['product_' . $_GET['remove']] < 1) {
+    //     header("Location: cart.php");
+    // } else {
+    //     $_SESSION['product_' . $_GET['remove']] -= 1;
+    //     header("Location: cart.php");
+    // }
+    // $_SESSION['quantity_msg'] = null;
+
+    $sql_quan = "UPDATE cart SET quantity= quantity-1 WHERE product_id = '$_GET[remove]' and user_id = '$_SESSION[id]' and quantity > 0";
+    $conn->query($sql_quan);
+    header("Location: cart.php");
 }
 
 if (isset($_GET['delete'])) {
 
-    $_SESSION['product_' . $_GET['delete']] = null;
+    // $_SESSION['product_' . $_GET['delete']] = null;
+    // header("Location: cart.php");
+
+    $sql_quan = "DELETE FROM `cart`  WHERE product_id = '$_GET[delete]' and user_id = '$_SESSION[id]'";
+    $conn->query($sql_quan);
     header("Location: cart.php");
 }
 ?>
@@ -85,63 +100,125 @@ if (isset($_GET['delete'])) {
                 <tbody class="align-middle">
 
                     <?php
-                    foreach ($_SESSION as $name => $value) {
-                        if (substr($name, 0, 8) == "product_") {
-                            $id = trim($name, "product_");
+                    if (isset($_SESSION['id'])) {
+                        $sql = "SELECT *
+                        FROM products
+                        INNER JOIN cart
+                        ON products.product_id = cart.product_id WHERE user_id = '$_SESSION[id]'";
+                        $res = $conn->query($sql);
+                        if ($res->num_rows > 0) {
+                            while ($row = $res->fetch_array()) {
 
-                            $sql_find = "SELECT * FROM products WHERE product_id = '$id'";
-                            $res_find = $conn->query($sql_find);
-                            if ($res_find->num_rows > 0) {
-                                while ($row = $res_find->fetch_array()) {
-                                    if ($value > 0) {
-                                        $total = $row['product_price']*$value;
-                                        $sub_tottal += $total; 
-                                        $_SESSION['sub_tottal'] =  $sub_tottal;
-                                        $total_qun +=  $value;
-                                        $_SESSION['quantity'] =  $total_qun;
-                                        if($row['product_quantity'] == $_SESSION['product_' . $row['product_id']]){
-                                            $info = "Only {$row['product_quantity']}  Left";
-                                        }
-                                        else{
-                                            $info = '';
-                                        }
-                                        echo "<tr>
-                                        <td class='align-middle'><img src='img/product-1.jpg' alt='' style='width: 50px;'> {$row['product_title']} </td>
-                                        <td class='align-middle'><span>$</span>{$row['product_price']}</td>
-                                        <td class='align-middle'>
-                                        <p class=' position-relative text-uppercase' style='color:red; margin-bottom: 0px;'>{$info}</p>
-                                            <div class='input-group quantity mx-auto' style='width: 100px;'>
-                                                <div class='input-group-btn'>
-                                                    <a href='cart.php?remove={$row['product_id']}' class='btn btn-sm btn-primary btn-minus'>
-                                                        <i class='fa fa-minus'></i>
-                                                    </a>
-                                                </div>
-                                                <input type='text' class='form-control form-control-sm bg-secondary border-0 text-center' value='{$value}' id='quantity' onchange='count(this.value)'>
-                                                <div class='input-group-btn'>
-                                                    <a href='cart.php?add={$row['product_id']}' class='btn btn-sm btn-primary btn-plus'>
-                                                        <i class='fa fa-plus'></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class='align-middle'><span>$</span>$total</td>
-                                        <td class='align-middle'>
-                                            <a href='cart.php?delete=1' class='btn btn-sm btn-danger'>
-                                                <i class='fa fa-times'></i>
-                                            </a>
-                                        </td>
-                                    </tr>";
+                                $sql_find = "SELECT * FROM cart WHERE product_id = '$row[product_id]' and user_id = '$_SESSION[id]'";
+                                $res_find = $conn->query($sql_find);
+                                if ($res_find->num_rows > 0) {
+                                    $v = $res_find->fetch_array();
+                                    if ($v['quantity'] >= $row['product_quantity']) {
+                                        $info = "Only {$row['product_quantity']}  Left";
+                                        $dsiable = "disabled";
+                                    } else {
+                                        $info = '';
+                                        $dsiable = "";
                                     }
+                                } else {
+                                    $info = '';
+                                    $dsiable = "";
                                 }
-                            } else {
-                                echo "<h2 style='text-align: center'>No record found</h2>";
+
+                                $total = $row['quantity'] * $row['product_price'];
+                                $sub_total += $total;
+                                if ($row['quantity'] > 0) {
+                                    echo "<tr>
+                                    <td class='align-middle'><img src='img/product-1.jpg' alt='' style='width: 50px;'> {$row['product_title']} </td>
+                                    <td class='align-middle'><span>$</span>{$row['product_price']}</td>
+                                    <td class='align-middle'>
+                                    <p class=' position-relative text-uppercase' style='color:red; margin-bottom: 0px;'>{$info}</p>
+                                        <div class='input-group quantity mx-auto' style='width: 100px;'>
+                                            <div class='input-group-btn'>
+                                                <a href='cart.php?remove={$row['product_id']}' class='btn btn-sm btn-primary btn-minus'>
+                                                    <i class='fa fa-minus'></i>
+                                                </a>
+                                            </div>
+                                            <input type='text' class='form-control form-control-sm bg-secondary border-0 text-center' value='{$row['quantity']}' id='quantity' onchange='count(this.value)'>
+                                            <div class='input-group-btn'>
+                                                <a href='cart.php?add={$row['product_id']}' class='btn btn-sm btn-primary btn-plus {$dsiable}'>
+                                                    <i class='fa fa-plus'></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class='align-middle'><span>$</span>{$total}</td>
+                                    <td class='align-middle'>
+                                        <a href='cart.php?delete=1' class='btn btn-sm btn-danger'>
+                                            <i class='fa fa-times'></i>
+                                        </a>
+                                    </td>
+                                </tr>";
+                                } else {
+                                    $sql_quan = "DELETE FROM `cart`  WHERE quantity = 0";
+                                    $conn->query($sql_quan);
+                                }
                             }
                         }
-                         
                     }
+
+                    // foreach ($_SESSION as $name => $value) {
+                    //     if (substr($name, 0, 8) == "product_") {
+                    //         $id = trim($name, "product_");
+
+                    //         $sql_find = "SELECT * FROM products WHERE product_id = '$id'";
+                    //         $res_find = $conn->query($sql_find);
+                    //         if ($res_find->num_rows > 0) {
+                    //             while ($row = $res_find->fetch_array()) {
+                    //                 if ($value > 0) {
+                    //                     $total = $row['product_price']*$value;
+                    //                     $sub_tottal += $total; 
+                    //                     $_SESSION['sub_tottal'] =  $sub_tottal;
+                    //                     $total_qun +=  $value;
+                    //                     $_SESSION['quantity'] =  $total_qun;
+                    //                     if($row['product_quantity'] == $_SESSION['product_' . $row['product_id']]){
+                    //                         $info = "Only {$row['product_quantity']}  Left";
+                    //                     }
+                    //                     else{
+                    //                         $info = '';
+                    //                     }
+                    //                     echo "<tr>
+                    //                     <td class='align-middle'><img src='img/product-1.jpg' alt='' style='width: 50px;'> {$row['product_title']} </td>
+                    //                     <td class='align-middle'><span>$</span>{$row['product_price']}</td>
+                    //                     <td class='align-middle'>
+                    //                     <p class=' position-relative text-uppercase' style='color:red; margin-bottom: 0px;'>{$info}</p>
+                    //                         <div class='input-group quantity mx-auto' style='width: 100px;'>
+                    //                             <div class='input-group-btn'>
+                    //                                 <a href='cart.php?remove={$row['product_id']}' class='btn btn-sm btn-primary btn-minus'>
+                    //                                     <i class='fa fa-minus'></i>
+                    //                                 </a>
+                    //                             </div>
+                    //                             <input type='text' class='form-control form-control-sm bg-secondary border-0 text-center' value='{$value}' id='quantity' onchange='count(this.value)'>
+                    //                             <div class='input-group-btn'>
+                    //                                 <a href='cart.php?add={$row['product_id']}' class='btn btn-sm btn-primary btn-plus'>
+                    //                                     <i class='fa fa-plus'></i>
+                    //                                 </a>
+                    //                             </div>
+                    //                         </div>
+                    //                     </td>
+                    //                     <td class='align-middle'><span>$</span>$total</td>
+                    //                     <td class='align-middle'>
+                    //                         <a href='cart.php?delete=1' class='btn btn-sm btn-danger'>
+                    //                             <i class='fa fa-times'></i>
+                    //                         </a>
+                    //                     </td>
+                    //                 </tr>";
+                    //                 }
+                    //             }
+                    //         } else {
+                    //             echo "<h2 style='text-align: center'>No record found</h2>";
+                    //         }
+                    //     }
+
+                    // }
                     ?>
 
-                    <!-- <tr>
+            <!-- <tr>
                         <td class="align-middle"><img src="img/product-2.jpg" alt="" style="width: 50px;"> Product Name</td>
                         <td class="align-middle">$150</td>
                         <td class="align-middle">
@@ -243,7 +320,7 @@ if (isset($_GET['delete'])) {
                 <div class="border-bottom pb-2">
                     <div class="d-flex justify-content-between mb-3">
                         <h6>Subtotal</h6>
-                        <h6><span>$</span><?php echo isset($_SESSION['sub_tottal'])? $_SESSION['sub_tottal'] : 0 ?></h6>
+                        <h6><span>$</span><?php echo  $sub_total ?></h6>
                     </div>
                     <div class="d-flex justify-content-between">
                         <h6 class="font-weight-medium">Shipping</h6>
@@ -253,7 +330,7 @@ if (isset($_GET['delete'])) {
                 <div class="pt-2">
                     <div class="d-flex justify-content-between mt-2">
                         <h5>Total</h5>
-                        <h5><span>$</span><?php echo isset($_SESSION['sub_tottal'])? $_SESSION['sub_tottal']+10 : 0 ?></h5>
+                        <h5><span>$</span><?php echo  $sub_total + 10 ?></h5>
                     </div>
                     <a href='checkout.php' class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</a>
                 </div>

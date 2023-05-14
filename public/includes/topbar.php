@@ -14,8 +14,16 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href='login.php' class="dropdown-item" type="button">Sign in</a>
-                            <a href='register.php' class="dropdown-item" type="button">Sign up</a>
+                            <?php 
+                                if(isset($_SESSION['id'])){
+                                    echo "<a href='admin/profile.php' class='dropdown-item' type='button'>Profile</a>
+                                    <a href='admin/logout.php' class='dropdown-item' type='button'>Logout</a>";
+                                }
+                                else{
+                                    echo "<a href='login.php' class='dropdown-item' type='button'>Sign in</a>
+                                    <a href='register.php' class='dropdown-item' type='button'>Sign up</a>";
+                                }
+                            ?>
                         </div>
                     </div>
                     <div class="btn-group mx-2">

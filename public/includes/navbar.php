@@ -1,11 +1,24 @@
 <?php
-foreach ($_SESSION as $name => $value) {
-    if (substr($name, 0, 8) == "product_") {
-        $id = trim($name, "product_");
-        $total_qun +=  $value;
-        $_SESSION['quantity'] =  $total_qun;
+// foreach ($_SESSION as $name => $value) {
+//     if (substr($name, 0, 8) == "product_") {
+//         $id = trim($name, "product_");
+//         $total_qun +=  $value;
+//         $_SESSION['quantity'] =  $total_qun;
+//     }
+// }
+if (isset($_SESSION['id'])) {
+    $sql = "SELECT SUM(`quantity`) as total FROM cart WHERE user_id = '$_SESSION[id]'";
+    $res = $conn->query($sql);
+    if ($res->num_rows>0) {
+        $v = $res->fetch_array();
+        $total = $v['total'];
+    } else {
+        $total = '0';
     }
+} else {
+    $total = '0';
 }
+
 
 ?>
 <div class="container-fluid bg-dark mb-30">
@@ -67,7 +80,9 @@ foreach ($_SESSION as $name => $value) {
                         </a>
                         <a href="cart.php" class="btn px-0 ml-3">
                             <i class="fas fa-shopping-cart text-primary"></i>
-                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"><?php echo isset($_SESSION['quantity']) ? $_SESSION['quantity'] : '0' ?></span>
+                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"><?php //echo isset($_SESSION['quantity']) ? $_SESSION['quantity'] : '0'; 
+                                                                                                                                    ?>
+                                <?php echo isset($total)? $total: '0'; ?></span>
                         </a>
                     </div>
                 </div>
