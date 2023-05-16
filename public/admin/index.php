@@ -48,6 +48,12 @@ if (!isset($_SESSION['id'])) {
             if (isset($_GET['category'])) {
                 include("./includes/categories/categories.php");
             }
+            if (isset($_GET['add_category'])) {
+                include("./includes/categories/addcate.php");
+            }
+            if (isset($_GET['edit_category'])) {
+                include("./includes/categories/editcate.php");
+            }
             if (isset($_GET['users'])) {
                 include("./includes/users/users.php");
             }

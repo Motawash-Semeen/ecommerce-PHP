@@ -82,7 +82,7 @@ ON products.product_cat_id = categories.cat_id;";
         </a>
         </td>
     <td>
-    <a href='index.php?products&id={$row['product_id']}&source=edit' class='btn  btn-warning '>
+    <a href='index.php?id={$row['product_id']}&edit_product' class='btn  btn-warning '>
     EDIT
 </a>
 <a onClick=\"javascript: return confirm('Are you sure you want to delete this Item?'); \" href='index.php?products&id={$row['product_id']}&delete' class='btn btn-danger '>
