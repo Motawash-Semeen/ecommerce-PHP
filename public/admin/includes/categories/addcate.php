@@ -39,6 +39,9 @@ if (isset($_POST['submit'])) {
 
 <!-- /.row -->
 <div class="row ">
+<h2 class="page-header" style='text-align:center'>
+    Add Category
+  </h2>
     <form action="" method="post" enctype="multipart/form-data">
         <div class="col-lg-4 col-lg-offset-4" style='margin:auto; '>
             <div class="col-auto col-lg-6 mb-2 form-group">

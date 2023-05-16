@@ -99,10 +99,10 @@ if (isset($_GET['status'])) {
                                                                 </td>
                                                                 
                                                                 <td class='text-right'>
-                                                                    <a href='index.php?id={$row['cat_id']}&edit_category' class='btn btn-link btn-warning btn-just-icon edit'>
+                                                                    <a href='index.php?id={$row['cat_id']}&edit_category' class='btn  btn-warning '>
                                                                     EDIT
                                                                     </a>
-                                                                    <a onClick=\"javascript: return confirm('Are you sure you want to delete this Item?'); \" href='index.php?id={$row['cat_id']}&category&delete' class='btn btn-link btn-danger btn-just-icon remove'>
+                                                                    <a onClick=\"javascript: return confirm('Are you sure you want to delete this Item?'); \" href='index.php?id={$row['cat_id']}&category&delete' class='btn btn-danger'>
                                                                     DELETE
                                                                     </a>
                                                                 </td>

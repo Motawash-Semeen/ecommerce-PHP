@@ -43,6 +43,9 @@ if (isset($_POST['update_category'])) {
 
 <!-- /.row -->
 <div class="row">
+<h2 class="page-header" style='text-align:center'>
+    Edit Category
+  </h2>
     <div class="col-md-4 col-lg-offset-4">
         <form action="" method="post" enctype="multipart/form-data">
             <div class="form-group">

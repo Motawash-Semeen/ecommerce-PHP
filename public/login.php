@@ -18,13 +18,13 @@ if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
     $email = mysqli_real_escape_string($conn, $email);
-    $password = mysqli_real_escape_string($conn, $password);
+    $password = md5(mysqli_real_escape_string($conn, $password));
 
     $sql = "SELECT * FROM users WHERE user_email = '$email' AND user_password = '$password'";
     $res = $conn->query($sql);
     if ($res->num_rows > 0) {
         $v = $res->fetch_array();
-        if ($v['user_status'] == 'active') {
+        if ($v['user_status'] == 'approved') {
             $_SESSION['email'] = $email;
             $_SESSION['id'] = $v['user_id'];
             $_SESSION['username'] = $v['username'];

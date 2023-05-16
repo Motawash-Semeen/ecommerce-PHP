@@ -27,7 +27,7 @@ if (isset($_POST['update'])) {
 
         if (in_array($img_ex_lc, $allowed_exc)) {
             $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
-            $img_upload_path = '../img/' . $new_img_name;
+            $img_upload_path = '../img/product/' . $new_img_name;
             move_uploaded_file($temp_name, $img_upload_path);
         } else {
             $em = "Only JPG, JPEG, PNG acceptable";
@@ -107,7 +107,7 @@ if (isset($_POST['update'])) {
           <input type="text" class="form-control mb-2" name="tags" placeholder="" value="<?php echo $row['product_tags'] ?>" required>
         </div>
         <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
-          <img src='../img/<?php echo $row['product_img'] ?>' width='250'>
+          <img src='../img/product/<?php echo $row['product_img'] ?>' width='250'>
         </div>
         <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
           <label for="inlineFormInput">Product Image</label>

@@ -57,6 +57,12 @@ if (!isset($_SESSION['id'])) {
             if (isset($_GET['users'])) {
                 include("./includes/users/users.php");
             }
+            if (isset($_GET['add_user'])) {
+                include("./includes/users/adduser.php");
+            }
+            if (isset($_GET['edit_user'])) {
+                include("./includes/users/updateuser.php");
+            }
             if (isset($_GET['products'])) {
                 include("./includes/products/products.php");
             }

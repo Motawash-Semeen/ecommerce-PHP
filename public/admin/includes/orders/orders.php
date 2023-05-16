@@ -55,12 +55,13 @@ if (isset($_GET['delete'])) {
                 <?php
 
                 $sql = "SELECT *
-FROM orders
-INNER JOIN users
-ON orders.user_id = users.user_id;";
+                FROM orders
+                INNER JOIN users
+                ON orders.user_id = users.user_id;";
                 $res = $conn->query($sql);
                 if ($res->num_rows > 0) {
                     while ($row = $res->fetch_array()) {
+                        
                         echo "
         <tr>
                     <td>21</td>

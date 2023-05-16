@@ -35,6 +35,11 @@ if (isset($_GET['delete'])) {
     All Products
 
   </h1>
+  <div style="text-align:right; margin:auto;">
+            <a href='index.php?add_product' class='btn btn-link btn-warning btn-just-icon edit' style="padding: 6px 12px; background-color:deepskyblue; border-radius: 5px; color:white; margin-bottom: 20px;">
+                Add New Product
+            </a>
+  </div>
   <table class="table table-hover">
 
 
@@ -57,6 +62,7 @@ if (isset($_GET['delete'])) {
     <tbody>
 
       <?php
+      $i=1;
       $sql = "SELECT *
 FROM products
 INNER JOIN categories
@@ -65,11 +71,11 @@ ON products.product_cat_id = categories.cat_id;";
       if ($res->num_rows > 0) {
         while ($row = $res->fetch_array()) {
           echo "<tr>
-    <td>20</td>
+    <td>{$i}</td>
     <td>{$row['product_title']}</td>
     <td>{$row['cat_title']}</td>
     <td> 
-      <img src='../img/{$row['product_img']}' alt='' width='100'>
+      <img src='../img/product/{$row['product_img']}' alt='' width='100'>
     </td>
     <td>{$row['product_price']}</td>
     <td>{$row['product_short_desc']}</td>
@@ -90,20 +96,12 @@ ON products.product_cat_id = categories.cat_id;";
 </a>
 </td>
   </tr>";
+  $i++;
         }
+        
       }
 
       ?>
-      <tr>
-        <td>20</td>
-        <td>Nikon 234 </td>
-        <td>
-          <img src='http://placehold.it/62x62' alt=''>
-        </td>
-        <td>Category</td>
-        <td>123</td>
-      </tr>
-
 
 
     </tbody>

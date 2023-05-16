@@ -21,7 +21,7 @@
                 </li>
             </ul>
         </li>
-        <li class="<?php echo isset($_GET['category'])? 'active':'' ?>">
+        <li class="<?php echo isset($_GET['category']) || isset($_GET['edit_category']) || isset($_GET['add_category'])? 'active':'' ?>">
             <a href="categories:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-arrows-v"></i> Categories <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="demo2" class="collapse">
                 <li>
@@ -36,15 +36,15 @@
             <?php
             if(isset($_SESSION['role'])){
                 if($_SESSION['role']=='admin'){
-                    $active = isset($_GET['users'])? 'active':'';
-                    echo "<li class='{ $active}'>
+                    $active = isset($_GET['users']) || isset($_GET['edit_user']) || isset($_GET['add_user'])? 'active':'';
+                    echo "<li class='{$active}'>
                     <a href='users:;' data-toggle='collapse' data-target='#demo3'><i class='fa fa-fw fa-arrows-v'></i> Users <i class='fa fa-fw fa-caret-down'></i></a>
                     <ul id='demo3' class='collapse'>
                         <li>
-                            <a href='manageuser.php?source=new'>Add Users</a>
+                            <a href='index.php?add_user'>Add Users</a>
                         </li>
                         <li>
-                            <a href='manageuser.php'>Manage Users</a>
+                            <a href='index.php?users'>Manage Users</a>
                         </li>
                     </ul>
                 </li>";
