@@ -12,11 +12,11 @@
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown"><?php echo isset($_SESSION['id'])? 'My Account' : 'Login/Register' ?></button>
                         <div class="dropdown-menu dropdown-menu-right">
                             <?php 
                                 if(isset($_SESSION['id'])){
-                                    echo "<a href='admin/profile.php' class='dropdown-item' type='button'>Profile</a>
+                                    echo "<a href='profile.php' class='dropdown-item' type='button'>Profile</a>
                                     <a href='admin/logout.php' class='dropdown-item' type='button'>Logout</a>";
                                 }
                                 else{
