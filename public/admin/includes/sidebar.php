@@ -32,6 +32,17 @@
                 </li>
             </ul>
         </li>
+        <li class="<?php echo isset($_GET['subcategory']) || isset($_GET['edit_subcategory']) || isset($_GET['add_subcategory'])? 'active':'' ?>">
+            <a href="subcategories:;" data-toggle="collapse" data-target="#demo25"><i class="fa fa-fw fa-arrows-v"></i>Sub Categories <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="demo25" class="collapse">
+                <li>
+                    <a href="index.php?add_subcategory">Add Sub Categories</a>
+                </li>
+                <li>
+                    <a href="index.php?subcategory">Manage Sub Categories</a>
+                </li>
+            </ul>
+        </li>
         
             <?php
             if(isset($_SESSION['role'])){

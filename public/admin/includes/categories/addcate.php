@@ -42,8 +42,8 @@ if (isset($_POST['submit'])) {
 <h2 class="page-header" style='text-align:center'>
     Add Category
   </h2>
+  <div class='col-md-4 col-lg-offset-4'>
     <form action="" method="post" enctype="multipart/form-data">
-        <div class="col-lg-4 col-lg-offset-4" style='margin:auto; '>
             <div class="col-auto col-lg-6 mb-2 form-group">
                 <label class="sr-only" for="inlineFormInput">Category Name</label>
                 <input type="text" class="form-control mb-2" name="cat_name" placeholder="Category Name">
@@ -62,6 +62,7 @@ if (isset($_POST['submit'])) {
             <div class="col-auto form-group" style='margin:auto; text-align:center;'>
                 <button type="submit" name="submit" class="btn btn-primary mb-2">Submit</button>
             </div>
-        </div>
     </form>
-</div>
+
+  </div>
+    </div>

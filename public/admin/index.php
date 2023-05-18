@@ -54,6 +54,15 @@ if (!isset($_SESSION['id'])) {
             if (isset($_GET['edit_category'])) {
                 include("./includes/categories/editcate.php");
             }
+            if (isset($_GET['subcategory'])) {
+                include("./includes/subcate/subcate.php");
+            }
+            if (isset($_GET['add_subcategory'])) {
+                include("./includes/subcate/addsubcate.php");
+            }
+            if (isset($_GET['edit_subcategory'])) {
+                include("./includes/subcate/editsubcate.php");
+            }
             if (isset($_GET['users'])) {
                 include("./includes/users/users.php");
             }
