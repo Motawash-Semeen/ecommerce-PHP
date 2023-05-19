@@ -11,8 +11,11 @@
     </div>
     <!-- Top Menu Items -->
     <ul class="nav navbar-right top-nav">
+        <li>
+            <a href="../index.php">Home</a>
+        </li>
         <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo isset($_SESSION['username'])? $_SESSION['username'] : '' ?> <b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo isset($_SESSION['username']) ? $_SESSION['username'] : '' ?> <b class="caret"></b></a>
             <ul class="dropdown-menu">
 
                 <li class="divider"></li>

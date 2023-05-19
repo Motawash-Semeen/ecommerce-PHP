@@ -11,15 +11,14 @@
                 FROM products  WHERE product_cat_id = '$row[cat_id]'
                 GROUP BY `product_cat_id`";
                 $res_count = $conn->query($sql_count);
-                if($res_count->num_rows > 0){
+                if ($res_count->num_rows > 0) {
                     $count = $res_count->fetch_array();
                     $value = $count['duplicate_count'];
-                }
-                else{
+                } else {
                     $value = 0;
                 }
-                
-                echo "
+                if ($value > 0) {
+                    echo "
         <div class='col-lg-3 col-md-4 col-sm-6 pb-1'>
         <a class='text-decoration-none' href='shop.php?cat_id={$row['cat_id']}'>
             <div class='cat-item d-flex align-items-center mb-4'>
@@ -33,6 +32,7 @@
             </div>
         </a>
     </div>";
+                }
             }
         }
 

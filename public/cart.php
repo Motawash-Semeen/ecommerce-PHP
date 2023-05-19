@@ -104,7 +104,7 @@ if (isset($_GET['delete'])) {
                                 $sub_total += $total;
                                 if ($row['quantity'] > 0) {
                                     echo "<tr>
-                                    <td class='align-middle'><img src='img/product-1.jpg' alt='' style='width: 50px;'> {$row['product_title']} </td>
+                                    <td class='text-left'><img src='img/product/{$row['product_img']}' alt='' style='width: 50px;'> {$row['product_title']} </td>
                                     <td class='align-middle'><span>$</span>{$row['product_price']}</td>
                                     <td class='align-middle'>
                                     <p class=' position-relative text-uppercase' style='color:red; margin-bottom: 0px;'>{$info}</p>

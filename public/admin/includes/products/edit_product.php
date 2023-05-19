@@ -94,6 +94,23 @@ if (isset($_POST['update'])) {
             ?>
           </select>
         </div>
+        <div class=" col-lg-6 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
+          <label for="cars">Sub Category:</label>
+
+          <select name="category" style="padding: 6px 12px;" required>
+            <option value="">...Select Sub Category...</option>
+            <?php
+            $sql_cate = "SELECT * FROM categories";
+            $result_cate = $conn->query($sql_cate);
+            if ($result_cate->num_rows > 0) {
+              while ($v = $result_cate->fetch_array()) {
+                $select = $row['product_cat_id'] == $v['cat_id'] ? 'selected' : '';
+                echo "<option value='{$v['cat_id']}' {$select}>{$v['cat_title']}</option>";
+              }
+            }
+            ?>
+          </select>
+        </div>
         <div class="col-lg-6 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
           <label for="inlineFormInput">Product Price</label>
           <input type="text" class="form-control mb-2" name="price" placeholder="" value="<?php echo $row['product_price'] ?>" required>
@@ -107,13 +124,9 @@ if (isset($_POST['update'])) {
           <input type="text" class="form-control mb-2" name="tags" placeholder="" value="<?php echo $row['product_tags'] ?>" required>
         </div>
         <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
-          <img src='../img/product/<?php echo $row['product_img'] ?>' width='250'>
+          <img src='../img/product/<?php echo $row['product_img'] ?>' width='100'>
         </div>
-        <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
-          <label for="inlineFormInput">Product Image</label>
-          <input type="file" class="form-control mb-2" name="image">
-          <input type="hidden" class="form-control mb-2" name="old_image" value="<?php echo $row['product_img'] ?>">
-        </div>
+        
         <div class=" col-lg-6 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
           <label for="inlineFormInput">Product Status</label>
           <select name="status" style="padding: 6px 12px;">
@@ -122,7 +135,11 @@ if (isset($_POST['update'])) {
             <option value="draft" <?php echo $row['product_status'] == 'draft' ? 'selected ' : '' ?>>Draft</option>
           </select>
         </div>
-
+        <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
+          <label for="inlineFormInput">Product Image</label>
+          <input type="file" class="form-control mb-2" name="image">
+          <input type="hidden" class="form-control mb-2" name="old_image" value="<?php echo $row['product_img'] ?>">
+        </div>
 
         <div class=" col-lg-12 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
           <label for="w3review">Product Description:</label>

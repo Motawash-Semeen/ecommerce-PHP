@@ -3,7 +3,7 @@
 if (isset($_SESSION['id'])) {
     $sql = "SELECT SUM(`quantity`) as total FROM cart WHERE user_id = '$_SESSION[id]'";
     $res = $conn->query($sql);
-    if ($res->num_rows>0) {
+    if ($res->num_rows > 0) {
         $v = $res->fetch_array();
         $total = $v['total'];
     } else {
@@ -24,23 +24,44 @@ if (isset($_SESSION['id'])) {
             </a>
             <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                 <div class="navbar-nav w-100">
-                    <div class="nav-item dropdown dropright">
+                    <?php
+                    $sql = "SELECT * FROM categories WHERE cat_status = 'active'";
+                    $res = $conn->query($sql);
+                    if ($res->num_rows > 0) {
+                        while ($row = $res->fetch_array()) {
+                            echo "<div class='nav-item dropdown dropright'>
+                            <a href='shop.php?cat={$row['cat_id']}' class='nav-link dropdown-toggle' data-toggle='dropdown'>{$row['cat_title']} 
+                            "
+                    ?>
+                    <?php
+                            $sql_sub = "SELECT * FROM sub_cat WHERE sub_cat_status = 'active' and cat_id = '$row[cat_id]'";
+                            $res_sub = $conn->query($sql_sub);
+                            if ($res_sub->num_rows > 0) {
+                                echo "<i class='fa fa-angle-right float-right mt-1'></i></a>
+                                <div class='dropdown-menu position-absolute rounded-0 border-0 m-0'>";
+                                while ($sub = $res_sub->fetch_array()) {
+                                    echo "<a href='shop.php?subcat={$sub['sub_cat_id']}' class='dropdown-item'>{$sub['sub_cat_title']}</a>";
+                                }
+                                echo "</div>";
+                            }
+                            else{
+                                echo"</a>";
+                            }
+                            echo "
+                        </div>";
+                        }
+                    }
+
+                    ?>
+                    <!-- <div class="nav-item dropdown dropright">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dresses <i class="fa fa-angle-right float-right mt-1"></i></a>
                         <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">
                             <a href="" class="dropdown-item">Men's Dresses</a>
                             <a href="" class="dropdown-item">Women's Dresses</a>
                             <a href="" class="dropdown-item">Baby's Dresses</a>
                         </div>
-                    </div>
-                    <a href="" class="nav-item nav-link">Shirts</a>
-                    <a href="" class="nav-item nav-link">Jeans</a>
-                    <a href="" class="nav-item nav-link">Swimwear</a>
-                    <a href="" class="nav-item nav-link">Sleepwear</a>
-                    <a href="" class="nav-item nav-link">Sportswear</a>
-                    <a href="" class="nav-item nav-link">Jumpsuits</a>
-                    <a href="" class="nav-item nav-link">Blazers</a>
-                    <a href="" class="nav-item nav-link">Jackets</a>
-                    <a href="" class="nav-item nav-link">Shoes</a>
+                    </div> -->
+
                 </div>
             </nav>
         </div>
@@ -75,7 +96,7 @@ if (isset($_SESSION['id'])) {
                         <a href="cart.php" class="btn px-0 ml-3">
                             <i class="fas fa-shopping-cart text-primary"></i>
                             <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">
-                                <?php echo isset($total)? $total: '0'; ?></span>
+                                <?php echo isset($total) ? $total : '0'; ?></span>
                         </a>
                     </div>
                 </div>

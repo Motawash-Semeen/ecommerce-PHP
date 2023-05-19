@@ -49,6 +49,7 @@ if (isset($_GET['delete'])) {
         <th>SN</th>
         <th>Title</th>
         <th>Category</th>
+        <th>Sub Category</th>
         <th>Image</th>
         <th>Price</th>
         <th>Short Description</th>
@@ -64,24 +65,29 @@ if (isset($_GET['delete'])) {
       <?php
       $i=1;
       $sql = "SELECT *
-FROM products
-INNER JOIN categories
-ON products.product_cat_id = categories.cat_id;";
+      FROM products
+      INNER JOIN categories
+      ON products.product_cat_id = categories.cat_id
+      INNER JOIN sub_cat
+      ON products.pro_sub_cat_id = sub_cat.sub_cat_id";
       $res = $conn->query($sql);
       if ($res->num_rows > 0) {
         while ($row = $res->fetch_array()) {
+          $desc =  substr($row['product_descript'],0,200).'...';
+          $sdesc =  substr($row['extra_info'],0,200).'...';
           echo "<tr>
     <td>{$i}</td>
     <td>{$row['product_title']}</td>
     <td>{$row['cat_title']}</td>
+    <td>{$row['sub_cat_title']}</td>
     <td> 
       <img src='../img/product/{$row['product_img']}' alt='' width='100'>
     </td>
     <td>{$row['product_price']}</td>
     <td>{$row['product_short_desc']}</td>
-    <td>{$row['product_descript']}</td>
+    <td>{$desc}</td>
     <td>{$row['product_quantity']}</td>
-    <td>{$row['extra_info']}</td>
+    <td>{$sdesc}</td>
     <td>
     <a href='index.php?products&id={$row['product_id']}&status={$row['product_status']}' class='btn btn-info'>
     {$row['product_status']}

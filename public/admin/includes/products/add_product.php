@@ -3,6 +3,7 @@ if (isset($_POST['insert'])) {
   $title = $_POST['title'];
   $sdesc = $_POST['sdesc'];
   $category = $_POST['category'];
+  $subcat = $_POST['subcat'];
   $price = $_POST['price'];
   $quantity = $_POST['quantity'];
   $tags = $_POST['tags'];
@@ -32,6 +33,7 @@ if (isset($_POST['insert'])) {
   $title = mysqli_real_escape_string($conn, $title);
   $sdesc = mysqli_real_escape_string($conn, $sdesc);
   $category = mysqli_real_escape_string($conn, $category);
+  $subcat = mysqli_real_escape_string($conn, $subcat);
   $price = mysqli_real_escape_string($conn, $price);
   $quantity = mysqli_real_escape_string($conn, $quantity);
   $tags = mysqli_real_escape_string($conn, $tags);
@@ -39,7 +41,7 @@ if (isset($_POST['insert'])) {
   $content = mysqli_real_escape_string($conn, $content);
   $add = mysqli_real_escape_string($conn, $add);
 
-  $sql_in = "INSERT INTO `products`( `product_title`, `product_short_desc`, `product_cat_id`, `product_price`, `product_descript`, `product_quantity`, `product_tags`, `product_img`, `extra_info`, `product_status`) VALUES ('$title','$sdesc','$category','$price','$content','$quantity','$tags','$new_img_name','$add','$status')";
+  $sql_in = "INSERT INTO `products`( `product_title`, `product_short_desc`, `product_cat_id`, `pro_sub_cat_id`, `product_price`, `product_descript`, `product_quantity`, `product_tags`, `product_img`, `extra_info`, `product_status`) VALUES ('$title','$sdesc','$category', '$subcat','$price','$content','$quantity','$tags','$new_img_name','$add','$status')";
 
   $re_in = $conn->query($sql_in);
   header("Location:  index.php?products");
@@ -53,9 +55,13 @@ if (isset($_POST['insert'])) {
     <h2 style="text-align:center;">Add Product</h2>
     <form action="" method="post" class="col-lg-6 col-lg-offset-3" enctype="multipart/form-data">
       <div class="form-row align-items-center ">
-        <div class=" col-lg-12 mb-2" style=" margin-bottom:30px">
+        <div class=" col-lg-6 mb-2" style=" margin-bottom:30px">
           <label for="inlineFormInput">Product Title</label>
           <input type="text" class="form-control mb-2" name="title" placeholder="Product Title" required>
+        </div>
+        <div class="col-lg-6 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
+          <label for="inlineFormInput">Product Price</label>
+          <input type="text" class="form-control mb-2" name="price" placeholder="" required>
         </div>
         <div class=" col-lg-12 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
           <label for="inlineFormInput">Product Short Desc</label>
@@ -65,7 +71,7 @@ if (isset($_POST['insert'])) {
         <div class=" col-lg-6 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
           <label for="cars">Category:</label>
 
-          <select name="category" style="padding: 6px 12px;" required>
+          <select name="category" style="padding: 6px 12px;" id="cat" onchange="getSubCat(this.value)" required>
             <option value="">...Select Category...</option>
             <?php
             $sql_cate = "SELECT * FROM categories";
@@ -78,9 +84,21 @@ if (isset($_POST['insert'])) {
             ?>
           </select>
         </div>
-        <div class="col-lg-6 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
-          <label for="inlineFormInput">Product Price</label>
-          <input type="text" class="form-control mb-2" name="price" placeholder="" required>
+        <div class=" col-lg-6 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
+          <label for="cars">Sub Category:</label>
+
+          <select name="subcat" style="padding: 6px 12px;" id="subcats" required>
+            <option value="">...Select Sub Category...</option>
+            <?php
+            // $sql_subcate = "SELECT * FROM sub_cat";
+            // $result_subcate = $conn->query($sql_subcate);
+            // if ($result_subcate->num_rows > 0) {
+            //   while ($sub= $result_subcate->fetch_array()) {
+            //     echo "<option value='{$sub['sub_cat_id']}'>{$sub['sub_cat_title']}</option>";
+            //   }
+            // }
+            ?>
+          </select>
         </div>
         <div class="col-lg-6 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
           <label for="inlineFormInput">Product Quantity</label>
@@ -119,3 +137,28 @@ if (isset($_POST['insert'])) {
     </form>
   </div>
 </div>
+
+
+<script>
+        function getSubCat(catId) {
+            // Send AJAX request to fetch cities based on the selected region
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "get_subcat.php?catId=" + catId, true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // Clear previous options
+                    document.getElementById("subcats").innerHTML = "<option value=''>...Select Sub Category...</option>";
+
+                    // Populate the second dropdown with cities
+                    var cities = JSON.parse(xhr.responseText);
+                    for (var i = 0; i < cities.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = cities[i].id;
+                        option.text = cities[i].name;
+                        document.getElementById("subcats").appendChild(option);
+                    }
+                }
+            };
+            xhr.send();
+        }
+    </script>

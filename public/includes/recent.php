@@ -54,7 +54,7 @@ if (isset($_GET['add'])) {
                 <div class='col-lg-3 col-md-4 col-sm-6 pb-1'>
                 <div class='product-item bg-light mb-4'>
                     <div class='product-img position-relative overflow-hidden'>
-                        <img class='img-fluid w-100' src='img/product-1.jpg' alt=''>
+                        <img class='img-fluid w-100' src='img/product/{$row['product_img']}' alt=''>
                         <div class='product-action'>
                             <a class='btn btn-outline-dark btn-square $dsiable' href='index.php?add={$row['product_id']}#recent' ><i class='fa fa-shopping-cart'></i></a>
                             <a class='btn btn-outline-dark btn-square' href=''><i class='far fa-heart'></i></a>
@@ -66,7 +66,7 @@ if (isset($_GET['add'])) {
                     <p class=' position-relative text-uppercase' style='color:red; margin-bottom: 0px;'>{$info}</p>
                         <a class='h6 text-decoration-none text-truncate' href='detail.php?p_id={$row['product_id']}'>{$row['product_title']}</a>
                         <div class='d-flex align-items-center justify-content-center mt-2'>
-                            <h5>{$row['product_price']}</h5><h6 class='text-muted ml-2'><del>$123.00</del></h6>
+                            <h5><span>$</span>{$row['product_price']}</h5><h6 class='text-muted ml-2'><del>$123.00</del></h6>
                         </div>
                         <div class='d-flex align-items-center justify-content-center mb-1'>
                             <small class='fa fa-star text-primary mr-1'></small>

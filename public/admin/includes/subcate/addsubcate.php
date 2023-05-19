@@ -27,7 +27,7 @@ if (isset($_POST['submit'])) {
     }
 
 
-    $sql_insert = "INSERT INTO sub_cat (cat_id, sub_cat_title, sub_cat_img) VALUES ('$category', '$cat_name', '$new_img_name')";
+    $sql_insert = "INSERT INTO sub_cat (cat_id, sub_cat_title, sub_cat_img, sub_cat_status) VALUES ('$category', '$cat_name', '$new_img_name', '$cat_status')";
     $conn->query($sql_insert);
 
     header("Location: index.php?subcategory");
