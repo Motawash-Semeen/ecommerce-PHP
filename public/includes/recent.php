@@ -1,4 +1,6 @@
 <?php
+
+
 if (isset($_GET['add'])) {
     if (isset($_SESSION['id'])) {
 
@@ -24,14 +26,15 @@ if (isset($_GET['add'])) {
     <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Recent Products</span></h2>
     <div class="row px-xl-5">
         <?php
+        $rows = array();
         $info = '';
         $dsiable = "";
-        
+
         $sql_pro = "SELECT * FROM products WHERE product_status = 'active' ORDER BY product_id DESC LIMIT 8";
         $res_pro = $conn->query($sql_pro);
         if ($res_pro->num_rows > 0) {
             while ($row = $res_pro->fetch_array()) {
-
+                $rows[] = $row;
                 if (isset($_SESSION['id'])) {
                     $sql_find = "SELECT * FROM cart WHERE product_id = '$row[product_id]' and user_id = '$_SESSION[id]'";
                     $res_find = $conn->query($sql_find);
@@ -49,7 +52,12 @@ if (isset($_GET['add'])) {
                         $dsiable = "";
                     }
                 }
+            }
+            
+            
 
+            shuffle($rows);
+            foreach($rows as $row){
                 echo "
                 <div class='col-lg-3 col-md-4 col-sm-6 pb-1'>
                 <div class='product-item bg-light mb-4'>
@@ -80,8 +88,9 @@ if (isset($_GET['add'])) {
                 </div>
             </div>";
             }
+            
         }
 
         ?>
-        </div>
+    </div>
 </div>
