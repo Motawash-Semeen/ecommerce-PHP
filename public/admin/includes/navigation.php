@@ -1,3 +1,30 @@
+<!-- USER ONLINE PHP -->
+
+<?php 
+$session = session_id();
+$time = time();
+$time_out_in_sec = 60;
+$timeout = $time-$time_out_in_sec;
+
+$query =  "SELECT * FROM users_online WHERE session='$session'";
+$res = $conn->query($query);
+$count_online = mysqli_num_rows($res);
+
+if($count_online==null){
+    $query_in = "INSERT INTO users_online(session, time) VALUES ('$session','$time')";
+    $conn->query($query_in);
+}
+else{
+    $query_in = "UPDATE users_online SET `time`='$time' WHERE `session`='$session'";
+    $conn->query($query_in);
+}
+    $query_in = "SELECT * FROM users_online WHERE time > '$timeout'";
+    $users_online = $conn->query($query_in);
+    $count = mysqli_num_rows($users_online);
+?>
+
+
+
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -11,6 +38,9 @@
     </div>
     <!-- Top Menu Items -->
     <ul class="nav navbar-right top-nav">
+        <li>
+            <a href="#">Users Online:<?php echo $count; ?></a>
+        </li>
         <li>
             <a href="../index.php">Home</a>
         </li>

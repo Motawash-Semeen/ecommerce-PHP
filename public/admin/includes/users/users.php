@@ -3,10 +3,10 @@ if (isset($_GET['status'])) {
     if (isset($_SESSION['role'])) {
         if ($_SESSION['role'] == 'admin') {
             $id = $_GET['id'];
-            if ($_GET['status'] == 'active') {
-                $satus = 'deactive';
+            if ($_GET['status'] == 'approved') {
+                $satus = 'disapproved';
             } else {
-                $satus = 'active';
+                $satus = 'approved';
             }
             $sql_status = "UPDATE users SET user_status = '$satus' WHERE user_id = '$id'";
             $result_status = $conn->query($sql_status);

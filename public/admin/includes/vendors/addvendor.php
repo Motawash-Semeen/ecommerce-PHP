@@ -1,10 +1,10 @@
 <?php
 include './includes/db.php';
 if (isset($_POST['submit'])) {
-    $cat_name = $_POST['cat_name'];
-    $cat_name = mysqli_real_escape_string($conn, $cat_name);
-    $cat_status = $_POST['status'];
-    $cat_status = mysqli_real_escape_string($conn, $cat_status);
+    $ven_name = $_POST['ven_name'];
+    $ven_name = mysqli_real_escape_string($conn, $ven_name);
+    $ven_status = $_POST['status'];
+    $ven_status = mysqli_real_escape_string($conn, $ven_status);
 
     if (isset($_FILES['image'])) {
         $img_name = $_FILES['image']['name'];
@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
 
         if (in_array($img_ex_lc, $allowed_exc)) {
             $new_img_name = uniqid("IMG-", true) . '.' . $img_ex_lc;
-            $img_upload_path = '../img/category/' . $new_img_name;
+            $img_upload_path = '../img/vendor/' . $new_img_name;
             move_uploaded_file($temp_name, $img_upload_path);
         } else {
             $em = "Only JPG, JPEG, PNG acceptable";
@@ -25,10 +25,10 @@ if (isset($_POST['submit'])) {
     }
 
 
-    $sql_insert = "INSERT INTO categories (cat_title, cat_img, cat_status) VALUES ('$cat_name', '$new_img_name', '$cat_status')";
+    $sql_insert = "INSERT INTO vendors (vendor_title, vendor_img, vendor_status) VALUES ('$ven_name', '$new_img_name', '$ven_status')";
     $conn->query($sql_insert);
 
-    header("Location: index.php?category");
+    header("Location: index.php?vendors");
 }
 
 
@@ -40,13 +40,13 @@ if (isset($_POST['submit'])) {
 <!-- /.row -->
 <div class="row ">
 <h2 class="page-header" style='text-align:center'>
-    Add Category
+    Add Vendor
   </h2>
   <div class='col-md-4 col-lg-offset-4'>
     <form action="" method="post" enctype="multipart/form-data">
             <div class="col-auto col-lg-6 mb-2 form-group">
-                <label class="sr-only" for="inlineFormInput">Category Name</label>
-                <input type="text" class="form-control mb-2" name="cat_name" placeholder="Category Name">
+                <label class="sr-only" for="inlineFormInput">Vendor Name</label>
+                <input type="text" class="form-control mb-2" name="ven_name" placeholder="Vendor Name">
             </div>
             <div class=" col-lg-6 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
                 <select name="status" style="padding: 6px 12px;">
@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
                 </select>
             </div>
             <div class="col-auto col-lg-12 mb-2 form-group">
-                <label class="sr-only" for="inlineFormInput">Category Image</label>
+                <label class="sr-only" for="inlineFormInput">Vendor Image</label>
                 <input type="file" class="form-control mb-2" name="image" placeholder="Category Img">
             </div>
             <div class="col-auto form-group" style='margin:auto; text-align:center;'>

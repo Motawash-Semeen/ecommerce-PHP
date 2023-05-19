@@ -25,7 +25,7 @@ if (isset($_POST['submit'])) {
     }
 
 
-    $sql_insert = "INSERT INTO categories (cat_title, cat_img, cat_status) VALUES ('$cat_name', '$new_img_name', '$cat_status')";
+    $sql_insert = "INSERT INTO categories (cat_title, cat_img) VALUES ('$cat_name', '$new_img_name')";
     $conn->query($sql_insert);
 
     header("Location: index.php?category");

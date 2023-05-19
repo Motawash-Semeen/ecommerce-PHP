@@ -43,6 +43,28 @@
                 </li>
             </ul>
         </li>
+        <li class="<?php echo isset($_GET['vendors']) || isset($_GET['edit_vendor']) || isset($_GET['add_vendor'])? 'active':'' ?>">
+            <a href="subcategories:;" data-toggle="collapse" data-target="#demo6"><i class="fa fa-fw fa-arrows-v"></i>Vendors <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="demo6" class="collapse">
+                <li>
+                    <a href="index.php?add_vendor">Add Vendors</a>
+                </li>
+                <li>
+                    <a href="index.php?vendors">Manage Vendors</a>
+                </li>
+            </ul>
+        </li>
+        <li class="<?php echo isset($_GET['banners']) || isset($_GET['edit_banner']) || isset($_GET['add_banner'])? 'active':'' ?>">
+            <a href="subcategories:;" data-toggle="collapse" data-target="#demo7"><i class="fa fa-fw fa-arrows-v"></i>Banner <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="demo7" class="collapse">
+                <li>
+                    <a href="index.php?add_banner">Add Banner</a>
+                </li>
+                <li>
+                    <a href="index.php?banners">Manage Banner</a>
+                </li>
+            </ul>
+        </li>
         
             <?php
             if(isset($_SESSION['role'])){

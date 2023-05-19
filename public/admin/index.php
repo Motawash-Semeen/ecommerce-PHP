@@ -82,6 +82,16 @@ if (!isset($_SESSION['id'])) {
                 include("./includes/products/edit_product.php");
             }
 
+            if (isset($_GET['vendors'])) {
+                include("./includes/vendors/vendors.php");
+            }
+            if (isset($_GET['add_vendor'])) {
+                include("./includes/vendors/addvendor.php");
+            }
+            if (isset($_GET['edit_vendor'])) {
+                include("./includes/vendors/editvendor.php");
+            }
+
             //echo $_SERVER['REQUEST_URI'];
             ?>
 
