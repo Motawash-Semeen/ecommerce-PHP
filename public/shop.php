@@ -82,7 +82,24 @@ if (isset($_GET['cat'])) {
     } else {
         $error_msg =  "No Product Found!!";
     }
-} else {
+} 
+ else if (isset($_GET['submit'])) {
+    $value = $_GET['search'];
+
+    $sql_count = "SELECT * FROM products WHERE product_status = 'active' and product_title LIKE '%$value%'";
+    $res_count = $conn->query($sql_count);
+    $count = mysqli_num_rows($res_count);
+    $count = ceil($count / 5);
+
+
+    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_title LIKE '%$value%' LIMIT $page_1, 5";
+    $res = $conn->query($sql_pro);
+    if ($res->num_rows > 0) {
+    } else {
+        $error_msg =  "No Product Found!!";
+    }
+} 
+else {
     $sql_count = "SELECT * FROM products WHERE product_status = 'active'";
     $res_count = $conn->query($sql_count);
     $count = mysqli_num_rows($res_count);
@@ -103,7 +120,7 @@ if (isset($_GET['cat'])) {
     <div class="row px-xl-5">
         <div class="col-12">
             <nav class="breadcrumb bg-light mb-30">
-                <a class="breadcrumb-item text-dark" href="#">Home</a>
+                <a class="breadcrumb-item text-dark" href="index.php">Home</a>
                 <a class="breadcrumb-item text-dark" href="#">Shop</a>
                 <span class="breadcrumb-item active"></span>
             </nav>
