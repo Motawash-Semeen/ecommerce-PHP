@@ -1,6 +1,6 @@
 <?php
 
-$sql_data = "SELECT * FROM categories";
+$sql_data = "SELECT * FROM banners";
 
 $result_data = $conn->query($sql_data);
 
@@ -9,9 +9,9 @@ $result_data = $conn->query($sql_data);
 if (isset($_SESSION['id'])) {
     if (isset($_GET['delete'])) {
         $id = $_GET['id'];
-        $sql = "DELETE FROM categories WHERE cat_id = '$id'";
+        $sql = "DELETE FROM banners WHERE banner_id = '$id'";
         $conn->query($sql);
-        header("Location: index.php?category");
+        header("Location: index.php?banners");
     }
 }
 if (isset($_GET['status'])) {
@@ -24,9 +24,9 @@ if (isset($_GET['status'])) {
         } else {
           $satus = 'deactive';
         }
-        $sql_status = "UPDATE categories SET cat_status = '$satus' WHERE cat_id = '$id'";
+        $sql_status = "UPDATE banners SET banner_status = '$satus' WHERE banner_id = '$id'";
         $conn->query($sql_status);
-        header("Location: index.php?category");
+        header("Location: index.php?banners");
       }
     }
   }
@@ -36,14 +36,14 @@ if (isset($_GET['status'])) {
 <div class="row">
     <div class="col-md-12">
         <div style="text-align:right; margin:auto;">
-            <a href='index.php?add_category' class='btn btn-link btn-warning btn-just-icon edit'
+            <a href='index.php?add_banner' class='btn btn-link btn-warning btn-just-icon edit'
                 style="padding: 6px 12px; background-color:deepskyblue; border-radius: 5px; color:white; margin-bottom: 20px;">
-                Add New Category
+                Add New Banner
             </a>
         </div>
         <div class="card">
             <div class="card-header card-header-primary card-header-icon col-lg-6 col-lg-offset-5">
-                <h3 class="card-title">Category Table</h3>
+                <h3 class="card-title">Banner Table</h3>
             </div>
             <div class="card-body">
                 <div class="toolbar"></div>
@@ -58,7 +58,7 @@ if (isset($_GET['status'])) {
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-6 col-lg-offset-3">
+                            <div class="col-sm-8 col-lg-offset-2">
                                 <table id="datatables" cellspacing="0" width="100%"
                                     class="table table-striped table-no-bordered table-hover dataTable dtr-inline"
                                     style="width: 100%;" role="grid" aria-describedby="datatables_info">
@@ -72,6 +72,10 @@ if (isset($_GET['status'])) {
                                                 aria-label="Name: activate to sort column descending">Name</th>
                                             <th class="sorting_asc" tabindex="0" aria-controls="datatables" rowspan="1"
                                                 colspan="1" style="width: 287px;" aria-sort="ascending">Image</th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="datatables" rowspan="1"
+                                                colspan="1" style="width: 287px;" aria-sort="ascending">Link</th>
+                                            <th class="sorting_asc" tabindex="0" aria-controls="datatables" rowspan="1"
+                                                colspan="1" style="width: 287px;" aria-sort="ascending">Description</th>
                                             <th class="sorting_asc" tabindex="0" aria-controls="datatables" rowspan="1"
                                                 colspan="1" style="width: 287px;" aria-sort="ascending"
                                                 aria-label="Status: activate to sort column descending">Status</th>
@@ -90,19 +94,22 @@ if (isset($_GET['status'])) {
                                             while ($row = $result_data->fetch_array()) {
                                                 echo "<tr role='row' class='odd'>
                                                                 <td tabindex='0' class='sorting_1'>{$i}</td>
-                                                                <td tabindex='0' class='sorting_1'>{$row['cat_title']}</td>
+                                                                <td tabindex='0' class='sorting_1'>{$row['banner_title']}</td>
                                                                 <td tabindex='0' class='sorting_1'>
-                                                                <img src='../img/category/{$row['cat_img']}' alt='cat_img' width='100'>
+                                                                <img src='../img/banner/{$row['banner_img']}' alt='banner_img' width='100'>
                                                                 </td>
+                                                                <td tabindex='0' class='sorting_1'><a href='../{$row['banner_link']}'>{$row['banner_link']}</a>
+                                                                </td>
+                                                                <td tabindex='0' class='sorting_1'>{$row['banner_des']}</td>
                                                                 <td tabindex='0' class='sorting_1'>
-                                                                <a href='index.php?category&id={$row['cat_id']}&status={$row['cat_status']}' class='btn btn-info'>{$row['cat_status']}</a>
+                                                                <a href='index.php?banners&id={$row['banner_id']}&status={$row['banner_status']}' class='btn btn-info'>{$row['banner_status']}</a>
                                                                 </td>
                                                                 
                                                                 <td class='text-right'>
-                                                                    <a href='index.php?id={$row['cat_id']}&edit_category' class='btn  btn-warning '>
+                                                                    <a href='index.php?id={$row['banner_id']}&edit_banner' class='btn  btn-warning '>
                                                                     EDIT
                                                                     </a>
-                                                                    <a onClick=\"javascript: return confirm('Are you sure you want to delete this Item?'); \" href='index.php?id={$row['cat_id']}&category&delete' class='btn btn-danger'>
+                                                                    <a onClick=\"javascript: return confirm('Are you sure you want to delete this Item?'); \" href='index.php?id={$row['banner_id']}&banners&delete' class='btn btn-danger'>
                                                                     DELETE
                                                                     </a>
                                                                 </td>
@@ -110,7 +117,7 @@ if (isset($_GET['status'])) {
                                                 $i++;
                                             }
                                         } else {
-                                            echo "<h2>No Data Found</h2>";
+                                            echo "<h4>No Data Found</h4>";
                                         }
 ?>
 

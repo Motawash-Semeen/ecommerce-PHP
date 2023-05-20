@@ -7,6 +7,23 @@ include("./includes/header.php");
 include("./includes/topbar.php");
 ?>
 
+
+
+<!-- PAGINATION PHP -->
+<?php
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
+if ($page == "" || $page == 1) {
+    $page_1 = 0;
+} else {
+    $page_1 = ($page * 5) - 5;
+}
+?>
+
+
 <!-- Topbar End -->
 <?php
 $error_msg = '';
@@ -28,8 +45,6 @@ if (isset($_GET['add'])) {
         header("Location: login.php");
     }
 }
-
-
 ?>
 
 <!-- Navbar Start -->
@@ -41,7 +56,12 @@ include("./includes/navbar.php");
 <?php
 if (isset($_GET['cat'])) {
     $id = $_GET['cat'];
-    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_cat_id = '$id'";
+    $sql_count = "SELECT * FROM products WHERE product_status = 'active' and product_cat_id = '$id'";
+    $res_count = $conn->query($sql_count);
+    $count = mysqli_num_rows($res_count);
+    $count = ceil($count / 5);
+
+    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_cat_id = '$id' LIMIT $page_1, 5";
     $res = $conn->query($sql_pro);
     if ($res->num_rows > 0) {
     } else {
@@ -49,14 +69,27 @@ if (isset($_GET['cat'])) {
     }
 } else if (isset($_GET['subcat'])) {
     $id = $_GET['subcat'];
-    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and pro_sub_cat_id = '$id'";
+
+    $sql_count = "SELECT * FROM products WHERE product_status = 'active' and pro_sub_cat_id = '$id'";
+    $res_count = $conn->query($sql_count);
+    $count = mysqli_num_rows($res_count);
+    $count = ceil($count / 5);
+
+
+    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and pro_sub_cat_id = '$id' LIMIT $page_1, 5";
     $res = $conn->query($sql_pro);
     if ($res->num_rows > 0) {
     } else {
         $error_msg =  "No Product Found!!";
     }
 } else {
-    $sql_pro = "SELECT * FROM products WHERE product_status = 'active'";
+    $sql_count = "SELECT * FROM products WHERE product_status = 'active'";
+    $res_count = $conn->query($sql_count);
+    $count = mysqli_num_rows($res_count);
+    $count = ceil($count / 5);
+
+
+    $sql_pro = "SELECT * FROM products WHERE product_status = 'active'  LIMIT $page_1, 5";
     $res = $conn->query($sql_pro);
     if ($res->num_rows > 0) {
     } else {
@@ -298,11 +331,19 @@ if (isset($_GET['cat'])) {
                 <div class="col-12 mt-2">
                     <nav>
                         <ul class="pagination justify-content-center">
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</span></a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+
+                        <li class="page-item <?php echo $page<=1 ? "disabled": "" ?>"><a class="page-link" href="shop.php?page=<?php echo $page-1?>">Previous</span></a></li>
+                        <?php
+                        for ($i = 1; $i <= $count; $i++) {
+                            $link_active = ($page==$i) ? 'active' : '';
+                            echo " <li class='page-item $link_active'><a class='page-link' href='shop.php?page=$i'>$i</a></li>";
+                        }
+                        ?>
+                            
+                            <!-- <li class="page-item active"><a class="page-link" href="#">1</a></li>
                             <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li> -->
+                            <li class="page-item <?php echo $page>=$count ? "disabled": "" ?>"><a class="page-link" href="shop.php?page=<?php echo $page+1?>">Next</a></li>
                         </ul>
                     </nav>
                 </div>

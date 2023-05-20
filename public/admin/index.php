@@ -91,6 +91,15 @@ if (!isset($_SESSION['id'])) {
             if (isset($_GET['edit_vendor'])) {
                 include("./includes/vendors/editvendor.php");
             }
+            if (isset($_GET['banners'])) {
+                include("./includes/banners/banners.php");
+            }
+            if (isset($_GET['add_banner'])) {
+                include("./includes/banners/addbanner.php");
+            }
+            if (isset($_GET['edit_banner'])) {
+                include("./includes/banners/editbanner.php");
+            }
 
             //echo $_SERVER['REQUEST_URI'];
             ?>

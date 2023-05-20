@@ -9,13 +9,35 @@
                         <li data-target="#header-carousel" data-slide-to="2"></li>
                     </ol>
                     <div class="carousel-inner">
-                        <div class="carousel-item position-relative active" style="height: 430px;">
-                            <img class="position-absolute w-100 h-100" src="img/carousel-1.jpg" style="object-fit: cover;">
-                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3" style="max-width: 700px;">
-                                    <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Men Fashion</h1>
-                                    <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="#">Shop Now</a>
+                        <?php 
+$sql = "SELECT * FROM banners WHERE banner_status = 'active'";
+$res = $conn->query($sql);
+if($res->num_rows > 0){
+    $active = 'active';
+    while($row = $res->fetch_array()){
+
+        echo "<div class='carousel-item position-relative $active' style='height: 430px;'>
+        <img class='position-absolute w-100 h-100' src='img/banner/$row[banner_img]' style='object-fit: cover;'>
+        <div class='carousel-caption d-flex flex-column align-items-center justify-content-center'>
+            <div class='p-3' style='max-width: 700px;'>
+                <h1 class='display-4 text-white mb-3 animate__animated animate__fadeInDown'>$row[banner_title]</h1>
+                <p class='mx-md-5 px-5 animate__animated animate__bounceIn'>$row[banner_des]</p>
+                <a class='btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp' href='$row[banner_link]'>Shop Now</a>
+            </div>
+        </div>
+    </div>";
+    $active = '';
+    }
+}
+
+?>
+                        <!-- <div class='carousel-item position-relative active' style='height: 430px;'>
+                            <img class='position-absolute w-100 h-100' src='img/carousel-1.jpg' style='object-fit: cover;'>
+                            <div class='carousel-caption d-flex flex-column align-items-center justify-content-center'>
+                                <div class='p-3' style='max-width: 700px;'>
+                                    <h1 class='display-4 text-white mb-3 animate__animated animate__fadeInDown'>Men Fashion</h1>
+                                    <p class='mx-md-5 px-5 animate__animated animate__bounceIn'>Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
+                                    <a class='btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp' href='#'>Shop Now</a>
                                 </div>
                             </div>
                         </div>
@@ -29,16 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="carousel-item position-relative" style="height: 430px;">
-                            <img class="position-absolute w-100 h-100" src="img/carousel-3.jpg" style="object-fit: cover;">
-                            <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
-                                <div class="p-3" style="max-width: 700px;">
-                                    <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Kids Fashion</h1>
-                                    <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                                    <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" href="#">Shop Now</a>
-                                </div>
-                            </div>
-                        </div>
+                          -->
                     </div>
                 </div>
             </div>
