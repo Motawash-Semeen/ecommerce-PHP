@@ -13,6 +13,17 @@ if (isset($_SESSION['id'])) {
     $total = '0';
 }
 
+if (isset($_SESSION['id'])) {
+    $sql_wish = "SELECT * FROM wishs WHERE user_id = '$_SESSION[id]'";
+    $res_wish = $conn->query($sql_wish);
+    if ($res_wish->num_rows > 0) {
+        $total_wish = mysqli_num_rows($res_wish);
+    } else {
+        $total_wish = '0';
+    }
+} else {
+    $total_wish = '0';
+}
 
 ?>
 <div class="container-fluid bg-dark mb-30">
@@ -89,9 +100,9 @@ if (isset($_SESSION['id'])) {
                         <a href="contact.php" class="nav-item nav-link">Contact</a>
                     </div>
                     <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                        <a href="" class="btn px-0">
+                        <a href="wish.php" class="btn px-0">
                             <i class="fas fa-heart text-primary"></i>
-                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;">0</span>
+                            <span class="badge text-secondary border border-secondary rounded-circle" style="padding-bottom: 2px;"><?php echo isset($total_wish) ? $total_wish : '0'; ?></span>
                         </a>
                         <a href="cart.php" class="btn px-0 ml-3">
                             <i class="fas fa-shopping-cart text-primary"></i>

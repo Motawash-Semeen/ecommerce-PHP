@@ -19,6 +19,22 @@ if (isset($_GET['add'])) {
         header("Location: login.php");
     }
 }
+if (isset($_GET['wish'])) {
+    if (isset($_SESSION['id'])) {
+
+        $sql_wish = "SELECT * FROM wishs WHERE product_id = '$_GET[wish]' and user_id = '$_SESSION[id]'";
+        $res_wish = $conn->query($sql_wish);
+        if ($res_wish->num_rows > 0) {
+            header("Location: index.php");
+        } else {
+            $sql_new = "INSERT INTO `wishs`(`user_id`, `product_id`) VALUES ('$_SESSION[id]','$_GET[wish]')";
+            $conn->query($sql_new);
+            header("Location: index.php");
+        }
+    } else {
+        header("Location: login.php");
+    }
+}
 
 
 ?>
@@ -65,7 +81,7 @@ if (isset($_GET['add'])) {
                         <img class='img-fluid w-100' src='img/product/{$row['product_img']}' alt=''>
                         <div class='product-action'>
                             <a class='btn btn-outline-dark btn-square $dsiable' href='index.php?add={$row['product_id']}#recent' ><i class='fa fa-shopping-cart'></i></a>
-                            <a class='btn btn-outline-dark btn-square' href=''><i class='far fa-heart'></i></a>
+                            <a class='btn btn-outline-dark btn-square' href='index.php?wish={$row['product_id']}'><i class='far fa-heart'></i></a>
                             <a class='btn btn-outline-dark btn-square' href=''><i class='fa fa-sync-alt'></i></a>
                             <a class='btn btn-outline-dark btn-square' href=''><i class='fa fa-search'></i></a>
                         </div>

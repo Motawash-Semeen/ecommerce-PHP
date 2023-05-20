@@ -59,7 +59,7 @@
                         <img class='img-fluid w-100' src='img/product/{$item['product_img']}' alt=''>
                         <div class='product-action'>
                             <a class='btn btn-outline-dark btn-square $dsiable' href='index.php?add={$item['product_id']}'><i class='fa fa-shopping-cart'></i></a>
-                            <a class='btn btn-outline-dark btn-square' href=''><i class='far fa-heart'></i></a>
+                            <a class='btn btn-outline-dark btn-square' href='index.php?wish={$item['product_id']}'><i class='far fa-heart'></i></a>
                             <a class='btn btn-outline-dark btn-square' href=''><i class='fa fa-sync-alt'></i></a>
                             <a class='btn btn-outline-dark btn-square' href=''><i class='fa fa-search'></i></a>
                         </div>
