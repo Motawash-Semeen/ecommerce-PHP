@@ -6,22 +6,36 @@ include("./includes/header.php");
 <?php
 include("./includes/topbar.php");
 ?>
+<!-- Topbar End -->
 
+<!-- Navbar Start -->
 <?php
 include("./includes/navbar.php");
 ?>
-<?php 
+<!-- Navbar Start -->
 
-if(isset($_GET['limit'])){
+
+<!-- LIMIT PHP -->
+<?php
+
+if (isset($_GET['limit'])) {
     $limit = $_GET['limit'];
-}
-else{
+} else {
     $limit = 5;
 }
 
+if (!isset($_GET['sort'])) {
+    $type = '';
+    $sorting = '';
+} else {
+    $type = $_GET['sort'];
+    $sorting = $_GET['order'];
+}
+
+
 ?>
 
-<!-- PAGINATION PHP -->
+<!-- PAGINATION PHP START-->
 <?php
 if (isset($_GET['page'])) {
     $page = $_GET['page'];
@@ -34,9 +48,10 @@ if ($page == "" || $page == 1) {
     $page_1 = ($page * $limit) - $limit;
 }
 ?>
+<!-- PAGINATION PHP END-->
 
+<!-- PRODUCT CART ADDING PHP-->
 
-<!-- Topbar End -->
 <?php
 $error_msg = '';
 if (isset($_GET['add'])) {
@@ -59,70 +74,7 @@ if (isset($_GET['add'])) {
 }
 ?>
 
-<!-- Navbar Start -->
-
-<!-- Navbar End -->
-<?php
-if (isset($_GET['cat'])) {
-    $id = $_GET['cat'];
-    $sql_count = "SELECT * FROM products WHERE product_status = 'active' and product_cat_id = '$id'";
-    $res_count = $conn->query($sql_count);
-    $count = mysqli_num_rows($res_count);
-    $count = ceil($count / $limit);
-
-    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_cat_id = '$id' LIMIT $page_1, $limit";
-    $res = $conn->query($sql_pro);
-    if ($res->num_rows > 0) {
-    } else {
-        echo "<h2 style='text-align:center'>No Product Found!!</h2>";
-    }
-} else if (isset($_GET['subcat'])) {
-    $id = $_GET['subcat'];
-
-    $sql_count = "SELECT * FROM products WHERE product_status = 'active' and pro_sub_cat_id = '$id'";
-    $res_count = $conn->query($sql_count);
-    $count = mysqli_num_rows($res_count);
-    $count = ceil($count / $limit);
-
-
-    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and pro_sub_cat_id = '$id' LIMIT $page_1, $limit";
-    $res = $conn->query($sql_pro);
-    if ($res->num_rows > 0) {
-    } else {
-        $error_msg =  "No Product Found!!";
-    }
-} 
- else if (isset($_GET['submit'])) {
-    $value = $_GET['search'];
-
-    $sql_count = "SELECT * FROM products WHERE product_status = 'active' and product_title LIKE '%$value%'";
-    $res_count = $conn->query($sql_count);
-    $count = mysqli_num_rows($res_count);
-    $count = ceil($count / $limit);
-
-
-    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_title LIKE '%$value%' LIMIT $page_1, $limit";
-    $res = $conn->query($sql_pro);
-    if ($res->num_rows > 0) {
-    } else {
-        $error_msg =  "No Product Found!!";
-    }
-} 
-else {
-    $sql_count = "SELECT * FROM products WHERE product_status = 'active'";
-    $res_count = $conn->query($sql_count);
-    $count = mysqli_num_rows($res_count);
-    $count = ceil($count / $limit);
-
-
-    $sql_pro = "SELECT * FROM products WHERE product_status = 'active'  LIMIT $page_1, $limit";
-    $res = $conn->query($sql_pro);
-    if ($res->num_rows > 0) {
-    } else {
-        $error_msg = "No Product Found!!";
-    }
-}
-?>
+<!-- WISH ADDING PHP -->
 
 <?php
 if (isset($_GET['wish'])) {
@@ -143,6 +95,98 @@ if (isset($_GET['wish'])) {
 }
 
 ?>
+
+<!-- Navbar Start -->
+
+<!-- Navbar End -->
+<?php
+if (isset($_GET['cat'])) {
+    $table = 'cat';
+    $id = $_GET['cat'];
+    $sql_count = "SELECT * FROM products WHERE product_status = 'active' and product_cat_id = '$id'";
+    $res_count = $conn->query($sql_count);
+    $count = mysqli_num_rows($res_count);
+    $count = ceil($count / $limit);
+
+    if($type!=''){
+        $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_cat_id = '$id' ORDER BY $type $sorting LIMIT $page_1, $limit";
+    }
+    else{
+        
+        $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_cat_id = '$id' LIMIT $page_1, $limit";
+    }
+
+    $res = $conn->query($sql_pro);
+    if ($res->num_rows > 0) {
+    } else {
+        echo "<h2 style='text-align:center'>No Product Found!!</h2>";
+    }
+} else if (isset($_GET['subcat'])) {
+    $table = 'subcat';
+    $id = $_GET['subcat'];
+
+    $sql_count = "SELECT * FROM products WHERE product_status = 'active' and pro_sub_cat_id = '$id'";
+    $res_count = $conn->query($sql_count);
+    $count = mysqli_num_rows($res_count);
+    $count = ceil($count / $limit);
+
+    if($type!=''){
+        $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and pro_sub_cat_id = '$id' ORDER BY $type $sorting LIMIT $page_1, $limit";
+    }
+    else{
+        $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and pro_sub_cat_id = '$id' LIMIT $page_1, $limit";
+    }
+    
+    $res = $conn->query($sql_pro);
+    if ($res->num_rows > 0) {
+    } else {
+        $error_msg =  "No Product Found!!";
+    }
+} else if (isset($_GET['submit'])) {
+    $value = $_GET['search'];
+
+    $sql_count = "SELECT * FROM products WHERE product_status = 'active' and product_title LIKE '%$value%'";
+    $res_count = $conn->query($sql_count);
+    $count = mysqli_num_rows($res_count);
+    $count = ceil($count / $limit);
+
+    if($type!=''){
+        $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_title LIKE '%$value%' ORDER BY $type $sorting LIMIT $page_1, $limit";
+    }
+    else{
+        
+        $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_title LIKE '%$value%' LIMIT $page_1, $limit";
+    }
+
+    $res = $conn->query($sql_pro);
+    if ($res->num_rows > 0) {
+    } else {
+        $error_msg =  "No Product Found!!";
+    }
+}
+ 
+else {
+    $sql_count = "SELECT * FROM products WHERE product_status = 'active'";
+    $res_count = $conn->query($sql_count);
+    $count = mysqli_num_rows($res_count);
+    $count = ceil($count / $limit);
+
+    if ($type != '') {
+        $sql_pro = "SELECT * FROM products WHERE product_status = 'active' ORDER BY $type $sorting LIMIT $page_1, $limit";
+    } else {
+
+        $sql_pro = "SELECT * FROM products WHERE product_status = 'active' LIMIT $page_1, $limit";
+    }
+
+    $res = $conn->query($sql_pro);
+    if ($res->num_rows > 0) {
+    } else {
+        $error_msg = "No Product Found!!";
+    }
+}
+?>
+
+
 <!-- Breadcrumb Start -->
 <div class="container-fluid">
     <div class="row px-xl-5">
@@ -297,20 +341,20 @@ if (isset($_GET['wish'])) {
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="shop.php?">Latest</a>
-                                    <a class="dropdown-item" href="shop.php?">Price (High - Low)</a>
-                                    <a class="dropdown-item" href="shop.php?">Price (Low -High)</a>
-                                    <a class="dropdown-item" href="shop.php?">Name (A - Z)</a>
-                                    <a class="dropdown-item" href="shop.php?">Name (Z -A)</a>
-                                    <a class="dropdown-item" href="shop.php?">Best Rating</a>
+                                    <a class="dropdown-item" href="shop.php?limit=<?php echo $limit ?>&sort=product_id&order=DESC&<?php echo isset($_GET['subcat'])? '&'.$table.'='.$_GET['subcat']: '' ?>">Latest</a>
+                                    <a class="dropdown-item" href="shop.php?limit=<?php echo $limit ?>&sort=product_price&order=DESC&<?php echo isset($_GET['subcat'])? '&'.$table.'='.$_GET['subcat']: '' ?>">Price (High - Low)</a>
+                                    <a class="dropdown-item" href="shop.php?limit=<?php echo $limit ?>&sort=product_price&order=ASC&<?php echo isset($_GET['subcat'])? '&'.$table.'='.$_GET['subcat']: '' ?>">Price (Low -High)</a>
+                                    <a class="dropdown-item" href="shop.php?limit=<?php echo $limit ?>&sort=product_title&order=DESC&<?php echo isset($_GET['subcat'])? '&'.$table.'='.$_GET['subcat']: '' ?>">Name (A - Z)</a>
+                                    <a class="dropdown-item" href="shop.php?limit=<?php echo $limit ?>&sort=product_title&order=ASC&<?php echo isset($_GET['subcat'])? '&'.$table.'='.$_GET['subcat']: '' ?>">Name (Z -A)</a>
+                                    <!-- <a class="dropdown-item" href="shop.php?limit=<?php echo $limit ?>&sort=rating&order=DESC&<?php //echo isset($_GET['subcat'])? '&'.$table.'='.$_GET['subcat']: '' ?>">Best Rating</a> -->
                                 </div>
                             </div>
                             <div class="btn-group ml-2">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="shop.php?limit=5">5</a>
-                                    <a class="dropdown-item" href="shop.php?limit=10">10</a>
-                                    <a class="dropdown-item" href="shop.php?limit=20">20</a>
+                                    <a class="dropdown-item" href="shop.php?limit=5<?php echo isset($_GET['subcat'])? '&'.$table.'='.$_GET['subcat']: '' ?>&<?php echo isset($_GET['sort'])? 'sort='.$_GET['sort'].'&order='.$_GET['order']: '' ?>">5</a>
+                                    <a class="dropdown-item" href="shop.php?limit=10<?php echo isset($_GET['subcat'])? '&'.$table.'='.$_GET['subcat']: '' ?>&<?php echo isset($_GET['sort'])? 'sort='.$_GET['sort'].'&order='.$_GET['order']: '' ?>">10</a>
+                                    <a class="dropdown-item" href="shop.php?limit=20<?php echo isset($_GET['subcat'])? '&'.$table.'='.$_GET['subcat']: '' ?>&<?php echo isset($_GET['sort'])? 'sort='.$_GET['sort'].'&order='.$_GET['order']: '' ?>">20</a>
                                 </div>
                             </div>
                         </div>
@@ -318,7 +362,7 @@ if (isset($_GET['wish'])) {
                 </div>
 
                 <!-- Sorting End -->
-                <h2 style='text-align:center; margin:auto;'><?php echo $error_msg !='' ? $error_msg : '' ?></h2>
+                <h2 style='text-align:center; margin:auto;'><?php echo $error_msg != '' ? $error_msg : '' ?></h2>
 
 
                 <?php
@@ -380,18 +424,18 @@ if (isset($_GET['wish'])) {
                     <nav>
                         <ul class="pagination justify-content-center">
 
-                        <li class="page-item <?php echo $page<=1 ? "disabled": "" ?>"><a class="page-link" href="shop.php?page=<?php echo $page-1?>">Previous</span></a></li>
-                        <?php
-                        for ($i = 1; $i <= $count; $i++) {
-                            $link_active = ($page==$i) ? 'active' : '';
-                            echo " <li class='page-item $link_active'><a class='page-link' href='shop.php?page=$i'>$i</a></li>";
-                        }
-                        ?>
-                            
+                            <li class="page-item <?php echo $page <= 1 ? "disabled" : "" ?>"><a class="page-link" href="shop.php?page=<?php echo $page - 1 ?>">Previous</span></a></li>
+                            <?php
+                            for ($i = 1; $i <= $count; $i++) {
+                                $link_active = ($page == $i) ? 'active' : '';
+                                echo " <li class='page-item $link_active'><a class='page-link' href='shop.php?page=$i'>$i</a></li>";
+                            }
+                            ?>
+
                             <!-- <li class="page-item active"><a class="page-link" href="#">1</a></li>
                             <li class="page-item"><a class="page-link" href="#">2</a></li>
                             <li class="page-item"><a class="page-link" href="#">3</a></li> -->
-                            <li class="page-item <?php echo $page>=$count ? "disabled": "" ?>"><a class="page-link" href="shop.php?page=<?php echo $page+1?>">Next</a></li>
+                            <li class="page-item <?php echo $page >= $count ? "disabled" : "" ?>"><a class="page-link" href="shop.php?page=<?php echo $page + 1 ?>">Next</a></li>
                         </ul>
                     </nav>
                 </div>
