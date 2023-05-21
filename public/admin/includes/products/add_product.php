@@ -89,15 +89,7 @@ if (isset($_POST['insert'])) {
 
           <select name="subcat" style="padding: 6px 12px;" id="subcats" required>
             <option value="">...Select Sub Category...</option>
-            <?php
-            // $sql_subcate = "SELECT * FROM sub_cat";
-            // $result_subcate = $conn->query($sql_subcate);
-            // if ($result_subcate->num_rows > 0) {
-            //   while ($sub= $result_subcate->fetch_array()) {
-            //     echo "<option value='{$sub['sub_cat_id']}'>{$sub['sub_cat_title']}</option>";
-            //   }
-            // }
-            ?>
+
           </select>
         </div>
         <div class="col-lg-6 mb-2" style="display:flex; flex-direction:column; margin-bottom:30px">
@@ -161,4 +153,4 @@ if (isset($_POST['insert'])) {
             };
             xhr.send();
         }
-    </script>
+</script>

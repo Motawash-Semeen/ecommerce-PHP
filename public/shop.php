@@ -7,7 +7,19 @@ include("./includes/header.php");
 include("./includes/topbar.php");
 ?>
 
+<?php
+include("./includes/navbar.php");
+?>
+<?php 
 
+if(isset($_GET['limit'])){
+    $limit = $_GET['limit'];
+}
+else{
+    $limit = 5;
+}
+
+?>
 
 <!-- PAGINATION PHP -->
 <?php
@@ -19,7 +31,7 @@ if (isset($_GET['page'])) {
 if ($page == "" || $page == 1) {
     $page_1 = 0;
 } else {
-    $page_1 = ($page * 5) - 5;
+    $page_1 = ($page * $limit) - $limit;
 }
 ?>
 
@@ -48,9 +60,6 @@ if (isset($_GET['add'])) {
 ?>
 
 <!-- Navbar Start -->
-<?php
-include("./includes/navbar.php");
-?>
 
 <!-- Navbar End -->
 <?php
@@ -59,9 +68,9 @@ if (isset($_GET['cat'])) {
     $sql_count = "SELECT * FROM products WHERE product_status = 'active' and product_cat_id = '$id'";
     $res_count = $conn->query($sql_count);
     $count = mysqli_num_rows($res_count);
-    $count = ceil($count / 5);
+    $count = ceil($count / $limit);
 
-    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_cat_id = '$id' LIMIT $page_1, 5";
+    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_cat_id = '$id' LIMIT $page_1, $limit";
     $res = $conn->query($sql_pro);
     if ($res->num_rows > 0) {
     } else {
@@ -73,10 +82,10 @@ if (isset($_GET['cat'])) {
     $sql_count = "SELECT * FROM products WHERE product_status = 'active' and pro_sub_cat_id = '$id'";
     $res_count = $conn->query($sql_count);
     $count = mysqli_num_rows($res_count);
-    $count = ceil($count / 5);
+    $count = ceil($count / $limit);
 
 
-    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and pro_sub_cat_id = '$id' LIMIT $page_1, 5";
+    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and pro_sub_cat_id = '$id' LIMIT $page_1, $limit";
     $res = $conn->query($sql_pro);
     if ($res->num_rows > 0) {
     } else {
@@ -89,10 +98,10 @@ if (isset($_GET['cat'])) {
     $sql_count = "SELECT * FROM products WHERE product_status = 'active' and product_title LIKE '%$value%'";
     $res_count = $conn->query($sql_count);
     $count = mysqli_num_rows($res_count);
-    $count = ceil($count / 5);
+    $count = ceil($count / $limit);
 
 
-    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_title LIKE '%$value%' LIMIT $page_1, 5";
+    $sql_pro = "SELECT * FROM products WHERE product_status = 'active' and product_title LIKE '%$value%' LIMIT $page_1, $limit";
     $res = $conn->query($sql_pro);
     if ($res->num_rows > 0) {
     } else {
@@ -103,17 +112,19 @@ else {
     $sql_count = "SELECT * FROM products WHERE product_status = 'active'";
     $res_count = $conn->query($sql_count);
     $count = mysqli_num_rows($res_count);
-    $count = ceil($count / 5);
+    $count = ceil($count / $limit);
 
 
-    $sql_pro = "SELECT * FROM products WHERE product_status = 'active'  LIMIT $page_1, 5";
+    $sql_pro = "SELECT * FROM products WHERE product_status = 'active'  LIMIT $page_1, $limit";
     $res = $conn->query($sql_pro);
     if ($res->num_rows > 0) {
     } else {
         $error_msg = "No Product Found!!";
     }
 }
+?>
 
+<?php
 if (isset($_GET['wish'])) {
     if (isset($_SESSION['id'])) {
 
@@ -286,17 +297,20 @@ if (isset($_GET['wish'])) {
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sorting</button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Latest</a>
-                                    <a class="dropdown-item" href="#">Popularity</a>
-                                    <a class="dropdown-item" href="#">Best Rating</a>
+                                    <a class="dropdown-item" href="shop.php?">Latest</a>
+                                    <a class="dropdown-item" href="shop.php?">Price (High - Low)</a>
+                                    <a class="dropdown-item" href="shop.php?">Price (Low -High)</a>
+                                    <a class="dropdown-item" href="shop.php?">Name (A - Z)</a>
+                                    <a class="dropdown-item" href="shop.php?">Name (Z -A)</a>
+                                    <a class="dropdown-item" href="shop.php?">Best Rating</a>
                                 </div>
                             </div>
                             <div class="btn-group ml-2">
                                 <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Showing</button>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">10</a>
-                                    <a class="dropdown-item" href="#">20</a>
-                                    <a class="dropdown-item" href="#">30</a>
+                                    <a class="dropdown-item" href="shop.php?limit=5">5</a>
+                                    <a class="dropdown-item" href="shop.php?limit=10">10</a>
+                                    <a class="dropdown-item" href="shop.php?limit=20">20</a>
                                 </div>
                             </div>
                         </div>
